@@ -2,6 +2,6 @@
 * [指南](guide)
 
 *  前端技术
-    * [javascriptttt](show/jacascript/)
+    * [javascriptttt](show/javascript/)
     * [echarts](show/nodejs/)
 *  服务端技术
