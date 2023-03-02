@@ -1,8 +1,12 @@
 * [首页](README)
 * [指南](guide)
 
-*  前端技术
-    * [javascriptttt](show/javascript/)
+*  javascript
+    * [javascript](show/javascript/) 
+*  node
     * [node](show/nodejs/)
+*  express
     * [express](show/express/)
-*  服务端技术
+    * [实战总结](show/express/test)
+*  typescript
+    * [typescript](show/typescript/)

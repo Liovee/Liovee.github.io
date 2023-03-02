@@ -101,3 +101,22 @@ const db = mysql.createPool({
 })
 db.query() 指定执行的语句
 ```
+
+### 身份认证
+
+1.使用 session 认证
+
+```
+const session = require('express-session')
+app.use(session({
+    secret: 'Liovee',
+    resave: false,
+    saveUninitialized: true
+}))
+```
+
+2.使用 jwt 认证
+组成部分:1.Header:头部 2.Payload:有效载荷 3.Signature:签名
+
+//jsonwebtoken 生成jwt字符串
+//express-jwt 将jwt字符串解析还原JSON对象
