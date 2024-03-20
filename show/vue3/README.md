@@ -1,5 +1,4 @@
 # VUE3
-![avatar](http://baidu.com/pic/doge.png)
 官网 https://cn.vuejs.org/
 
 ### 构建方式
