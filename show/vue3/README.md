@@ -1,5 +1,5 @@
 # VUE3
-
+![avatar](http://baidu.com/pic/doge.png)
 官网 https://cn.vuejs.org/
 
 ### 构建方式
@@ -877,11 +877,15 @@ const css = useCssModule('Liovee') //css模块化
 ```
 npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
 ```
+
 - 2.生成配置项
+
 ```
 npx tailwindcss init -p
 ```
+
 - 3.修改配置文件 tailwind.config.js
+
 ```
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -891,20 +895,23 @@ module.exports = {
   plugins: [],
 }
 ```
-- 4. src目录底下新建index.css并配置
-- 5.main.ts中引入即可
+
+- 4. src 目录底下新建 index.css 并配置
+- 5.main.ts 中引入即可
 
 ### EventLoop
 
 1.宏任务
-script(整体代码)、setTimeout、setInterval、UI交互事件、postMessage、Ajax
+script(整体代码)、setTimeout、setInterval、UI 交互事件、postMessage、Ajax
 
 2.微任务
 Promise.then catch finally、MutaionObserver、process.nextTick(Node.js 环境)
 
 ### nextTick
-使用nextTick是因为vue更新dom是异步的，数据更新是同步的,所以有时候数据更新dom还没更新
+
+使用 nextTick 是因为 vue 更新 dom 是异步的，数据更新是同步的,所以有时候数据更新 dom 还没更新
 使用方式
+
 ```
 1.回调函数模式
 nextTick(()=>{})
@@ -915,8 +922,144 @@ const send = async ()=>{
 }
 ```
 
-### vue开发移动端
+### vue 开发移动端
+
 - 1.安装依赖
+
 ```
 npm install postcss-px-to-viewport -D //将px转为vw或者vh
+```
+
+### unocss(原子化)
+
+- 1.npm i unocss
+- 2.vite.config.js 的配置(静态)
+
+```
+import unoCss from 'unocss/vite'
+plugins: [vue(),vueJsx(),unoCss({
+    rules:[
+      ['flex',{display:"flex"}],
+      ['red',{color:'red'}]
+    ]
+  })],
+```
+
+(动态)
+
+```
+rules: [
+  [/^m-(\d+)$/, ([, d]) => ({ margin: `${Number(d) * 10}px` })],
+  ['flex', { display: "flex" }]
+]
+```
+
+shortcuts 可以自定义组合样式
+
+```
+plugins: [vue(), vueJsx(), unocss({
+    rules: [
+      [/^m-(\d+)$/, ([, d]) => ({ margin: `${Number(d) * 10}px` })],
+      ['flex', { display: "flex" }],
+      ['pink', { color: 'pink' }]
+    ],
+    shortcuts: {
+      btn: "pink flex"
+    }
+```
+
+- 3.main.ts 引入
+  import 'uno.css'
+- 4.预设
+
+```
+presets:[presetIcons(),presetAttributify(),presetUno()]
+```
+图标库安装
+```
+npm i -D @iconify-json/ic
+```
+### h函数
+h 接收三个参数
+- type 元素的类型
+- propsOrChildren 数据对象, 这里主要表示(props, attrs, dom props, class 和 style)
+- children 子节点
+使用props传递参数
+```
+<template>
+    <Btn text="按钮"></Btn>
+</template>
+  
+<script setup lang='ts'>
+import { h, } from 'vue';
+type Props = {
+    text: string
+}
+const Btn = (props: Props, ctx: any) => {
+    return h('div', {
+        class: 'p-2.5 text-white bg-green-500 rounded shadow-lg w-20 text-center inline m-1',
+ 
+    }, props.text)
+}
+</script>
+```
+接受emit
+```
+<template>
+    <Btn @on-click="getNum" text="按钮"></Btn>
+</template>
+  
+<script setup lang='ts'>
+import { h, } from 'vue';
+type Props = {
+    text: string
+}
+const Btn = (props: Props, ctx: any) => {
+    return h('div', {
+        class: 'p-2.5 text-white bg-green-500 rounded shadow-lg w-20 text-center inline m-1',
+        onClick: () => {
+            ctx.emit('on-click', 123)
+        }
+    }, props.text)
+}
+ 
+const getNum = (num: number) => {
+    console.log(num);
+}
+</script>
+```
+定义插槽
+```
+<template>
+    <Btn @on-click="getNum">
+        <template #default>
+            按钮slots
+        </template>
+    </Btn>
+</template>
+  
+<script setup lang='ts'>
+import { h, } from 'vue';
+type Props = {
+    text?: string
+}
+const Btn = (props: Props, ctx: any) => {
+    return h('div', {
+        class: 'p-2.5 text-white bg-green-500 rounded shadow-lg w-20 text-center inline m-1',
+        onClick: () => {
+            ctx.emit('on-click', 123)
+        }
+    }, ctx.slots.default())
+}
+ 
+const getNum = (num: number) => {
+    console.log(num);
+}
+</script>
+```
+
+### 开发环境
+```
+npm run dev 就是开发环境
+npm run build 就是生产环境
 ```
